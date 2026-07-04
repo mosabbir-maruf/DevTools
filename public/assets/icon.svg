@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <!-- Gradient definition -->
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#111111" />
+      <stop offset="100%" stop-color="#202020" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Icon container -->
+  <rect width="128" height="128" rx="28" fill="url(#bgGrad)" stroke="#2a2a2a" stroke-width="2"/>
+  
+  <!-- Code brackets logo element in Accent Color #D7CFBE -->
+  <svg x="24" y="24" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#D7CFBE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="16 18 22 12 16 6"/>
+    <polyline points="8 6 2 12 8 18"/>
+  </svg>
+</svg>

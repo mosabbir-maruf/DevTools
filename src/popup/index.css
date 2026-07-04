@@ -1,0 +1,260 @@
+@import '@fontsource/geist-sans/300.css';
+@import '@fontsource/geist-sans/400.css';
+@import '@fontsource/geist-sans/500.css';
+@import '@fontsource/geist-sans/600.css';
+@import '@fontsource/geist-sans/700.css';
+@import '@fontsource/geist-mono/400.css';
+@import '@fontsource/geist-mono/500.css';
+@import '@fontsource/geist-mono/600.css';
+@import '@fontsource/geist-mono/700.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Theme tokens (space-separated RGB channels for <alpha-value>) ─── */
+/* Default = dark. The website adds `.theme-light` on <html> to switch. */
+:root {
+  --bg-base: 10 10 10;
+  --bg-primary: 17 17 17;
+  --bg-secondary: 24 24 24;
+  --bg-tertiary: 32 32 32;
+  --bg-hover: 37 37 37;
+
+  --border-subtle: 31 31 31;
+  --border-default: 42 42 42;
+  --border-strong: 56 56 56;
+
+  --text-primary: 242 242 242;
+  --text-secondary: 136 136 136;
+  --text-tertiary: 85 85 85;
+  --text-muted: 58 58 58;
+
+  --accent: 215 207 190;
+  --accent-dim: 197 188 169;
+  --accent-ink: 215 207 190; /* accent used as text/icons */
+  --on-accent: 10 10 10;     /* text/icon color on an accent fill (constant) */
+
+  --ok: 61 153 112;
+  --err: 204 68 68;
+}
+
+html.theme-light {
+  /* Page is a warm off-white; surfaces step up to pure white so cards,
+     panels, and inputs separate clearly from the background. */
+  --bg-base: 245 244 241;
+  --bg-primary: 255 255 255;
+  --bg-secondary: 255 255 255;
+  --bg-tertiary: 236 234 229;
+  --bg-hover: 230 228 222;
+
+  /* Borders are strengthened so hairline rules and card edges stay visible
+     against white surfaces. */
+  --border-subtle: 224 221 213;
+  --border-default: 202 198 190;
+  --border-strong: 174 169 159;
+
+  --text-primary: 24 22 20;
+  --text-secondary: 82 78 72;
+  --text-tertiary: 118 113 105;
+  --text-muted: 156 151 142;
+
+  /* Accent becomes a saturated gold in light mode so pulse dots, pills, and
+     button fills read clearly against the light background. White sits on the
+     accent fill for legible button labels. */
+  --accent: 176 137 66;
+  --accent-dim: 156 120 56;
+  --accent-ink: 138 105 52;
+  --on-accent: 255 255 255;
+
+  --ok: 30 122 82;
+  --err: 190 48 48;
+}
+
+/* The panel shadow is tuned for dark surfaces; soften it on light so cards
+   get a subtle lift instead of a heavy black drop shadow. */
+html.theme-light .shadow-panel {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(0, 0, 0, 0.04);
+}
+
+/* ─── Reset ────────────────────────────────────────────── */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* ─── Root ─────────────────────────────────────────────── */
+html, body {
+  font-family: 'Geist Sans', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  margin: 0;
+  padding: 0;
+  background: rgb(var(--bg-base));
+}
+
+/* ─── Theme change animation (View Transitions circular reveal) ─── */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+/* Keep the outgoing (old) theme underneath while the new one is revealed. */
+::view-transition-old(root) { z-index: 1; }
+::view-transition-new(root) { z-index: 9999; }
+
+/* Fallback smooth transition for browsers without the View Transitions API. */
+html.theme-anim,
+html.theme-anim body {
+  transition: background-color 0.4s ease;
+}
+
+/* Popup-specific sizing */
+body.popup-mode {
+  background: #0a0a0a;
+  color: #f2f2f2;
+  width: 380px;
+  overflow: hidden;
+}
+body.popup-mode #root {
+  background: #0a0a0a;
+  color: #f2f2f2;
+  width: 380px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Result page: full screen */
+body.result-mode,
+body.result-mode #root {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  overscroll-behavior: none;
+  background: #1a1a1a;
+  color: #f2f2f2;
+}
+
+/* Landing page defaults */
+body.landing-mode {
+  background: rgb(var(--bg-base));
+  color: rgb(var(--text-primary));
+  overscroll-behavior: none;
+  min-height: 100dvh;
+}
+
+/* ─── Scrollbar ─────────────────────────────────────────── */
+::-webkit-scrollbar { width: 2px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #D7CFBE; border-radius: 99px; }
+
+/* ─── Range Slider ──────────────────────────────────────── */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 2px;
+  border-radius: 99px;
+  background: #2a2a2a;
+  outline: none;
+  cursor: pointer;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #f2f2f2;
+  cursor: pointer;
+  transition: transform 0.12s ease;
+}
+input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.25); }
+input[type="range"]::-moz-range-thumb {
+  width: 12px; height: 12px;
+  border: none; border-radius: 50%;
+  background: #f2f2f2; cursor: pointer;
+}
+input[type="range"]:disabled { opacity: 0.35; cursor: not-allowed; }
+
+/* ─── Number Input spinners ─────────────────────────────── */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button { opacity: 0.4; }
+
+/* ─── Hide scrollbar ──────────────────────────────────── */
+.scrollbar-hidden {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.scrollbar-hidden::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 99px;
+}
+
+/* ─── Animations ────────────────────────────────────────── */
+@keyframes fadeIn  { from { opacity: 0 } to { opacity: 1 } }
+@keyframes slideUp { from { opacity: 0; transform: translateY(6px) } to { opacity: 1; transform: translateY(0) } }
+
+.animate-fade-in  { animation: fadeIn  0.15s ease-out both; }
+.animate-slide-up { animation: slideUp 0.2s  ease-out both; }
+
+/* ─── Checkerboard Pattern ─────────────────────────────── */
+.bg-checkerboard {
+  background-color: #060606;
+  background-image: 
+    linear-gradient(45deg, #121212 25%, transparent 25%), 
+    linear-gradient(-45deg, #121212 25%, transparent 25%), 
+    linear-gradient(45deg, transparent 75%, #121212 75%), 
+    linear-gradient(-45deg, transparent 75%, #121212 75%);
+  background-size: 16px 16px;
+  background-position: 0 0, 0 8px, 8px -8px, -8px 0px;
+}
+
+/* ─── Premium Glassmorphic Surfaces ───────────────────────── */
+.glass-panel {
+  background: rgba(16, 16, 16, 0.55) !important;
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.04) !important;
+}
+.glass-card {
+  background: rgba(25, 25, 25, 0.25) !important;
+  border: 1px solid rgba(255, 255, 255, 0.03) !important;
+}
+
+/* ─── Premium Customized Range Sliders ─────────────────────── */
+input[type="range"].accent-accent {
+  -webkit-appearance: none;
+  appearance: none;
+  background: rgba(255, 255, 255, 0.06);
+  height: 3px;
+  border-radius: 99px;
+  outline: none;
+}
+input[type="range"].accent-accent::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #D7CFBE;
+  cursor: pointer;
+  transition: transform 0.1s ease, background-color 0.1s ease;
+  box-shadow: 0 0 6px rgba(215, 207, 190, 0.3);
+}
+input[type="range"].accent-accent::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+  background: #ffffff;
+}
