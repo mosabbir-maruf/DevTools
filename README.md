@@ -1,136 +1,235 @@
 <p align="center">
-  <img src="public/assets/icon128.png" alt="DevTools" width="128" height="128">
+  <img src="public/assets/icon128.png" alt="DevTools" width="120" height="120">
 </p>
 
-# DevTools — Screenshot, Fonts & Colors Chrome Extension
+<h1 align="center">DevTools — Screenshot, Fonts, Colors &amp; Meta Inspector</h1>
 
-All-in-one local developer toolkit: capture screenshots, inspect CSS/fonts on-hover, and pick color codes from any web page. A free, open-source Chrome extension that runs entirely in your browser with zero analytics or privacy risks.
+<p align="center">
+  Free, open-source Chrome extension and all-in-one developer toolkit: capture full-page
+  screenshots, inspect fonts on hover, pick colors with the eyedropper, and audit SEO
+  metadata. <b>100% local, zero tracking.</b>
+</p>
+
+<p align="center">
+  <a href="https://devtools-ext.vercel.app">Live site</a> ·
+  <a href="#installation">Install</a> ·
+  <a href="#environment-variables">Env setup</a> ·
+  <a href="#project-structure">Structure</a>
+</p>
+
+---
+
+## Overview
+
+DevTools bundles the utilities developers and designers reach for every day into one
+lightweight Chrome extension. Everything runs entirely in your browser — no servers, no
+analytics, no telemetry. The repository also contains the marketing/landing site (a React
+SPA) and a serverless contact endpoint.
 
 ## Features
 
-- **Four Integrated Utilities**
-  - 🖥️ **Screenshots** — Capture Full Page (seamless scrolling/stitching), visible viewports, or custom regions with background style layouts and presets.
-  - 🔠 **Fonts** — Inspect styles live on hover: reads fontFamily, fontSize, fontWeight, color, lineHeight, letterSpacing, styles and HTML tags.
-  - 🎨 **Colors** — Use browser's native EyeDropper API to pick pixels from anywhere on screen and copy HEX, RGB, or HSL parameters instantly.
-  - 🔍 **Meta Inspector** — Audit SEO headers, Open Graph tags, Twitter/X cards, manifest targets, alternate language URLs, and JSON-LD structured schemas.
+- **🖥️ Screenshots** — Full Page (seamless scroll + stitch), Visible viewport, or custom
+  Region. Includes device viewport presets and background layout options.
+- **🔠 Fonts** — Hover any element to read `font-family`, `font-size`, `font-weight`,
+  `color`, `line-height`, `letter-spacing`, style, and the HTML tag.
+- **🎨 Colors** — Use the browser's native EyeDropper API to pick any pixel on screen and
+  copy HEX, RGB, or HSL.
+- **🔍 Meta Inspector** — Audit SEO headers, Open Graph tags, Twitter/X cards, manifests,
+  hreflang alternates, and JSON-LD structured data.
+- **🧰 Image Toolkit** — Convert, compress, crop, and resize images locally in the browser.
 
-- **Device Viewport Presets**
-  - Mobile: iPhone SE, iPhone 14 series, Pixel 5/7, Galaxy S20/S21, Galaxy Fold
-  - Tablet: iPad Mini, iPad, iPad Pro 11"/12.9", Surface Pro, Surface Duo
-  - Custom: set any width, height, and device pixel ratio
+**Device presets:** iPhone SE / 14 series, Pixel 5/7, Galaxy S20/S21, Galaxy Fold, iPad
+Mini / iPad / iPad Pro 11″/12.9″, Surface Pro, Surface Duo, or a custom width × height ×
+DPR.
 
-- **Screenshot & Image Formats**
-  - PNG (lossless), JPEG (compressed), WebP (optimized), PDF (printable document), SVG (vector wrapper)
+**Export formats:** PNG, JPEG, WebP, PDF, SVG.
 
-- **Built for Privacy**
-  - 100% local processing — no data ever leaves your device
-  - No external servers, no telemetry, no tracking, works completely offline
+**Privacy:** 100% local processing — nothing ever leaves your device. No telemetry, no
+tracking, works offline.
 
-## Installation
+## Tech Stack
 
-### From Source
+- **React 18** + **TypeScript**
+- **Vite** (multi-entry build for popup / result / toolkit / landing + background & content scripts)
+- **Tailwind CSS** (semantic theme tokens, dark/light)
+- **wouter** (landing-site routing)
+- **jsPDF** (PDF export)
+- **Chrome Extension Manifest V3**
+- **Vercel** serverless function (`/api/contact`) for the contact form
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js 18+ and npm
+
+### Installation
 
 ```bash
-git clone https://github.com/mosabbir-maruf/FullScreenShot.git
-cd FullScreenShot
+git clone https://github.com/mosabbir-maruf/DevTools.git
+cd DevTools
 npm install
 npm run build
 ```
 
-1. Open Chrome and go to `chrome://extensions`
-2. Enable **Developer mode** (toggle in the top-right corner)
-3. Click **Load unpacked**
-4. Select the `dist` folder inside the cloned project directory
+<a id="installation"></a>
 
-The extension icon will appear in your toolbar. Pin it for easy access.
+### Load the extension in Chrome
 
-## Uninstallation
+1. Open Chrome and go to `chrome://extensions`.
+2. Enable **Developer mode** (top-right toggle).
+3. Click **Load unpacked**.
+4. Select the `dist` folder inside the project directory.
 
-1. Open Chrome and go to `chrome://extensions`
-2. Find **DevTools** in your list of extensions
-3. Click **Remove**
-4. (Optional) Delete the cloned project folder from your file system
-
-## Usage
-
-1. Navigate to any webpage.
-2. Click the DevTools extension icon in your toolbar.
-3. Select your tool tab at the top:
-   - **Screenshot** — choose a mode (Full Page, Visible, Region), preset viewports, layout, formats, and click Capture.
-   - **Fonts** — click "Start Detecting" and click any highlighted element to show its CSS font properties. Press Escape or toggle off to stop.
-   - **Colors** — click "Pick Color" and use the cursor eyedropper to click any pixel on the screen. Select HEX, RGB, or HSL to copy.
-   - **Meta** — inspect standard header tags, Open Graph cards, Twitter metadata, manifests, language alternates, and JSON-LD schemas instantly.
-
-## Project Structure
-
-```
-FullScreenShot/
-├── public/                    # Static extension assets
-│   ├── assets/                # Icons (16, 32, 48, 128 PNG + SVG)
-│   ├── favicon.ico
-│   ├── manifest.json          # Chrome extension manifest (MV3)
-│   └── meta-og.webp           # Open Graph preview image
-├── src/
-│   ├── background/
-│   │   └── background.ts      # Service worker — message router, screen capture stitching
-│   ├── components/
-│   │   ├── CaptureButton.tsx   # Capture action button
-│   │   ├── ExportOptions.tsx   # Format & quality selector
-│   │   ├── ModeSelector.tsx    # Capture mode picker
-│   │   ├── PresetSelector.tsx  # Device preset & custom size UI
-│   │   ├── Preview.tsx         # Result viewer (pan, zoom, export, delete)
-│   │   ├── FontDetector.tsx    # Font inspector tool tab panel
-│   │   ├── ColorPicker.tsx     # Eyedropper color picker tool tab panel
-│   │   └── MetaInspector.tsx   # SEO metadata inspector tool tab panel
-│   ├── content/
-│   │   └── content.ts         # Selection overlays, live font hover highlights, native EyeDropper trigger
-│   ├── landing/
-│   │   ├── Landing.tsx         # Marketing site shell (header, footer, router)
-│   │   ├── index.html
-│   │   └── pages/
-│   │       ├── Contact.tsx
-│   │       ├── Faq.tsx
-│   │       ├── Guide.tsx
-│   │       └── Home.tsx
-│   ├── popup/
-│   │   ├── App.tsx             # Popup window — tool tabs navigation entry point
-│   │   ├── index.css           # Tailwind imports, fonts, global styles
-│   │   ├── index.html
-│   │   └── main.tsx
-│   ├── result/
-│   │   ├── ResultApp.tsx       # Capture result loader
-│   │   ├── index.html
-│   │   └── main.tsx
-│   ├── types/
-│   │   └── index.ts           # Shared TypeScript types
-│   └── utils/
-│       ├── image.ts            # Image/PDF download & conversion
-│       └── presets.ts          # Device preset definitions
-├── index.html                 # Root entry (dev mode)
-├── package.json
-├── tsconfig.json
-├── tsconfig.node.json
-├── vite.config.ts             # Vite build config (multi-entry)
-├── tailwind.config.js         # Tailwind theme tokens
-├── postcss.config.js
-├── eslint.config.js
-├── generate-icons.js          # Icon generation script (sharp)
-├── LICENSE
-└── README.md
-```
+Pin the extension from the toolbar puzzle icon for one-click access.
 
 ## Development
 
 ```bash
-# Start dev server (landing page)
-npm run dev
-
-# Type-check
-npm run typecheck
-
-# Production build
-npm run build
+npm run dev         # start the Vite dev server (landing site)
+npm run typecheck   # type-check with tsc --noEmit
+npm run lint        # run ESLint
+npm run build       # type-check + production build to dist/
+npm run preview     # preview the production build
 ```
+
+## Environment Variables
+
+The contact form on the landing site posts to a Vercel serverless function
+(`api/contact.js`) that forwards submissions to a **Telegram** chat. These variables are
+**server-side only** and are never exposed to the browser.
+
+| Variable             | Description                                        |
+| -------------------- | -------------------------------------------------- |
+| `TELEGRAM_BOT_TOKEN` | Bot token from [@BotFather](https://t.me/BotFather) |
+| `TELEGRAM_CHAT_ID`   | Numeric chat/channel id that should receive messages |
+
+### How to obtain them
+
+1. **Create a bot** — message [@BotFather](https://t.me/BotFather) on Telegram, run
+   `/newbot`, and copy the token it gives you (looks like `123456789:ABC-DEF...`).
+2. **Get your chat id** — send any message to your new bot, then either:
+   - message [@userinfobot](https://t.me/userinfobot) to read your numeric id, or
+   - call `https://api.telegram.org/bot<TOKEN>/getUpdates` and read `result[].message.chat.id`.
+
+### Local setup
+
+Copy the example file and fill in your values:
+
+```bash
+cp .env.example .env
+```
+
+```env
+TELEGRAM_BOT_TOKEN=123456789:your-bot-token-here
+TELEGRAM_CHAT_ID=your-numeric-chat-id-here
+```
+
+> `.env` is git-ignored. Local `npm run dev` serves the static site only — the
+> `/api/contact` function runs on Vercel (or `vercel dev`).
+
+### Production setup (Vercel)
+
+In your Vercel project: **Settings → Environment Variables** → add `TELEGRAM_BOT_TOKEN`
+and `TELEGRAM_CHAT_ID`, then redeploy.
+
+The endpoint includes a honeypot field, per-instance rate limiting, input validation, and
+HTML escaping to guard against spam and injection.
+
+## Deployment
+
+The site deploys to **Vercel** as a static SPA plus the `/api` serverless function.
+`vercel.json` rewrites all non-`/api` routes to `index.html` so client-side routing works:
+
+```json
+{
+  "rewrites": [{ "source": "/((?!api/).*)", "destination": "/index.html" }]
+}
+```
+
+Connect the repo in the Vercel dashboard, set the environment variables above, and deploy.
+
+## Project Structure
+
+```
+DevTools/
+├── api/
+│   └── contact.js               # Vercel serverless fn — forwards contact form to Telegram
+├── public/
+│   ├── assets/                  # Extension icons (16/32/48/128 PNG + icon.svg)
+│   ├── favicon.ico
+│   ├── manifest.json            # Chrome extension manifest (MV3)
+│   ├── meta-og.png              # Open Graph / social preview image (PNG)
+│   ├── meta-og.webp             # Open Graph / social preview image (WebP)
+│   └── mosabbir-maruf.webp      # Author photo (About page)
+├── src/
+│   ├── background/
+│   │   └── background.ts        # Service worker — message router, screen capture stitching
+│   ├── content/
+│   │   └── content.ts           # Selection overlays, font-hover highlights, EyeDropper trigger
+│   ├── components/              # Shared tool UI (popup + landing)
+│   │   ├── CaptureButton.tsx
+│   │   ├── ColorPicker.tsx      # Eyedropper color picker panel
+│   │   ├── ExportOptions.tsx    # Format & quality selector
+│   │   ├── FontDetector.tsx     # Font inspector panel
+│   │   ├── ImageToolkit.tsx     # Convert / compress / crop / resize studio
+│   │   ├── MetaInspector.tsx    # SEO metadata inspector panel
+│   │   ├── ModeSelector.tsx     # Capture mode picker
+│   │   ├── PresetSelector.tsx   # Device preset & custom size UI
+│   │   └── Preview.tsx          # Result viewer (pan, zoom, export, delete)
+│   ├── popup/                   # Extension popup app (380×600)
+│   │   ├── App.tsx              # Tool tabs navigation entry point
+│   │   ├── main.tsx
+│   │   ├── index.html
+│   │   ├── index.css            # Tailwind imports, fonts, theme tokens, global styles
+│   │   └── components/
+│   │       ├── ImagesTab.tsx
+│   │       └── WebsiteTab.tsx
+│   ├── result/                  # Full-screen capture result page
+│   │   ├── ResultApp.tsx
+│   │   ├── main.tsx
+│   │   └── index.html
+│   ├── toolkit/                 # Standalone image toolkit page
+│   │   ├── main.tsx
+│   │   └── index.html
+│   ├── landing/                 # Marketing site (React SPA)
+│   │   ├── Landing.tsx          # Shell — header, footer, wouter router
+│   │   ├── ThemeToggle.tsx      # Animated dark/light switch
+│   │   ├── useTheme.ts          # Theme state + View Transitions reveal
+│   │   ├── index.html           # SEO / OG / Twitter meta + JSON-LD
+│   │   └── pages/
+│   │       ├── Home.tsx
+│   │       ├── About.tsx
+│   │       ├── Guide.tsx
+│   │       ├── Faq.tsx
+│   │       ├── Contact.tsx
+│   │       └── MetaPage.tsx     # Standalone meta inspector tool page
+│   ├── types/
+│   │   └── index.ts             # Shared TypeScript types
+│   └── utils/
+│       ├── image.ts             # Image/PDF download & conversion
+│       ├── imageProcessor.ts    # Client-side image transforms
+│       ├── metadata.ts          # Metadata parsing helpers
+│       ├── presets.ts           # Device preset definitions
+│       └── zip.ts               # ZIP bundling for batch export
+├── index.html                   # Root entry (dev mode)
+├── vite.config.ts               # Vite build config (multi-entry)
+├── tailwind.config.js           # Tailwind theme tokens
+├── postcss.config.js
+├── tsconfig.json
+├── tsconfig.node.json
+├── .eslintrc.cjs
+├── vercel.json                  # SPA rewrites + /api routing
+├── .env.example                 # Telegram env template
+├── LICENSE
+└── README.md
+```
+
+## Uninstall
+
+1. Go to `chrome://extensions`.
+2. Find **DevTools** and click **Remove**.
+3. (Optional) Delete the cloned project folder.
 
 ## License
 
