@@ -162,7 +162,7 @@ export default function Home() {
             <span className="block text-[9px] sm:text-[10px] font-semibold text-text-tertiary uppercase tracking-widest font-mono text-center sm:text-left">
               Interactive Engine Mockup
             </span>
-            <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5">
+            <div className="flex flex-wrap items-center justify-center sm:justify-start gap-x-4 gap-y-1.5">
               {([
                 ['fullpage', 'Full Page'],
                 ['visible', 'Visible'],

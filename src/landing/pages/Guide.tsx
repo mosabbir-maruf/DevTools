@@ -94,11 +94,19 @@ npm run build`;
                       )}
                     </button>
                   </div>
-                  <div className="p-5 font-mono text-xs sm:text-sm text-text-primary overflow-x-auto leading-relaxed">
-                    <span className="text-accent-ink">git</span> clone https://github.com/mosabbir-maruf/FullScreenShot.git{'\n'}
-                    <span className="text-accent-ink">cd</span> FullScreenShot{'\n'}
-                    <span className="text-accent-ink">npm</span> install{'\n'}
-                    <span className="text-accent-ink">npm</span> run build
+                  <div className="p-4 sm:p-5 font-mono text-xs sm:text-sm text-text-primary leading-relaxed space-y-1">
+                    <div className="break-all sm:break-normal">
+                      <span className="text-accent-ink">git</span> clone https://github.com/mosabbir-maruf/FullScreenShot.git
+                    </div>
+                    <div className="break-all sm:break-normal">
+                      <span className="text-accent-ink">cd</span> FullScreenShot
+                    </div>
+                    <div className="break-all sm:break-normal">
+                      <span className="text-accent-ink">npm</span> install
+                    </div>
+                    <div className="break-all sm:break-normal">
+                      <span className="text-accent-ink">npm</span> run build
+                    </div>
                   </div>
                 </div>
               </div>
